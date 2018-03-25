@@ -1,0 +1,35 @@
+{% macro render_field(field) %}
+
+<div class="form-group {% if field.errors %}has-danger{% endif %}"> 
+{% if field.label.text != '' %}<label class="form-control-label" for="{{ field.id }}">{{ field.label.text }}</label> {% endif %} 
+{{ field(**kwargs)|safe }} 
+{% if field.errors %}
+	<div class="form-control-feedback">
+		{% for error in field.errors %}
+		{{ error }}
+		{% endfor %}
+	</div>
+	{% endif %} 
+	{% if field.description %}<small class="form-text text-muted">{{ field.description }}</small> {% endif %}
+</div>
+{% endmacro %}
+
+{% macro preview_markdown(id, preview_id) %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/commonmark/0.27.0/commonmark.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		var reader = new commonmark.Parser({ safe: true });
+		var writer = new commonmark.HtmlRenderer({ safe: true });
+
+		var parsed = reader.parse($("#{{ id }}").val());
+		var result = writer.render(parsed);
+
+		$("#{{ id }}").keydown(function (evt) {
+				toParse = $("#{{ id }}").val();
+				parsed = reader.parse(toParse);
+				result = writer.render(parsed);
+				$("#{{ preview_id }}").html(result);
+		});
+	});
+</script>
+{% endmacro %}

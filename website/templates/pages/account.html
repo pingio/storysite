@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+{% block title %}{{ user.username }} - {{config.SITE_NAME}}{% endblock %} 
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+
+        {% if request.path == url_for('account.home') %}
+        {% from 'pages/account_profile.html' import account_profile with context %}
+        {% from 'pages/account_profile.html' import customjs as js with context %}
+        {% endif %}
+        
+        {% if request.path == url_for('account.settings') %}
+        {% from 'pages/account_settings.html' import account_settings with context %}
+        {% from 'pages/account_settings.html' import customjs as js with context %}
+        {% endif %}
+        
+        {% if request.path == url_for('account.stories') %}
+        {% from 'pages/account_stories.html' import account_stories with context %}
+        {% from 'pages/account_stories.html' import customjs as js with context %}
+        {% endif %}
+
+{% block content %}
+<div class="container">
+    <div class="col-12">
+        <h1 class="username">USER: {{ user.username }}</h1>
+        <hr>
+        <section class="user-info text-muted">
+            <ul class="list-inline">
+                <li class="list-inline-item">Account type: <span class="badge badge-success">VIP</span></li>
+                &nbsp;
+                <li class="list-inline-item">Story count: {{ storylen }}</li>
+            </ul>
+        </section>
+
+        <section class="user-pages">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link{% if request.path == url_for('account.home') %} active {% endif %}" href="{{ url_for('account.home') }}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if request.path == url_for('account.settings') %} active {% endif %}" href="{{ url_for('account.settings') }}">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if request.path == url_for('account.stories') %} active {% endif %}" href="{{ url_for('account.stories') }}">Stories</a>
+                </li>
+            </ul>
+        </section>
+        
+        
+        {% if request.path == url_for('account.home') %}
+        {{ account_profile() }}
+        {% endif %}
+        
+        {% if request.path == url_for('account.settings') %}
+        {{ account_settings() }}
+        {% endif %}
+        
+        {% if request.path == url_for('account.stories') %}
+        {{ account_stories() }}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block customjs %}
+        {{ js() }}
+{% endblock %}

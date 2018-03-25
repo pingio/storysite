@@ -1,0 +1,38 @@
+{% extends 'layout.html' %} {% block title %}Comments :: {{ story.title }} - {{ config.SITE_NAME }}{% endblock %} {% block
+navbar %}{% include 'navbar.html' %}{% endblock %} {% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h1 class="text-center">
+                Comments for: {{ story.title }}
+            </h1>
+            <hr> {% if loggedin %} {% from '_formhelpers.html' import render_field %}
+            <section class="create-comment">
+                <form method="POST" action="{{ url_for('story.comments', url=url) }}">
+                    {{ render_field(form.comment) }}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </section>
+            {% endif %}
+            <section class="comments" id="comments">
+                {% for comment in comments %}
+                <div class="comment-thread" id="thread-{{comment.id}}">
+                    <div class="comment">
+                        <div class="card" id="comment-{{comment.id}}">
+                            <div class="card-block">
+                                <p class="card-title"><a href="{{ url_for('user.user', username=comment.author) }}" class="comment-link-commenter text-warning">{{ comment.author }}</a>                                    <span class=" text-muted small">posted: 12-12-1990</span></p>
+                                <p class="card-text lead">{{ comment.comment }}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block customjs %}
+<script>
+</script>
+{% endblock %}

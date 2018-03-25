@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block title %}{{config.SITE_NAME}}{% endblock %} 
+{% block navbar %}{% include 'navbar.html' %}{% endblock %} 
+{% block content %}
+<div class="container">
+	<div class="col-12">
+		<div class="jumbotron">
+			<h1>
+				Hi there!
+			</h1>
+			<p class="open-sans">Welcome to the simplistic story reader website focused on optimal reading ability.<br> Stories are rated based on votes
+				that you make (you need to <a href="{{ url_for('account.signup') }}">create an account</a> to be able to do this).<br> Best of all, everything
+				is free and you receive no ads unless you <a href="account/options">agree</a> to it.
+			</p>
+			<p><a class="btn btn-primary btn-lg" href="info/about">Learn more</a></p>
+		</div>
+	</div>
+</div>
+{% endblock %}

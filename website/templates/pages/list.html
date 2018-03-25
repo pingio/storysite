@@ -1,0 +1,63 @@
+
+{% extends 'layout.html' %}
+{% block title %}List - {{config.SITE_NAME}}{% endblock %} 
+{% block navbar %}{% include 'navbar.html' %}{% endblock %} 
+{% block content %}
+<div class="container">
+	<div class="col-md-12">
+		<h1 class="page-header text-center" id="top"><i class="fa fa-star"></i> Stories</h1>
+
+		<table class="table table-bordered table-hover" id="table" cellspacing="0">
+			<thead>
+				<tr scope="row">
+					<th style="width:20px;">#</th>
+					<th>Title</th>
+					<th>Synopsis</th>
+					<th>Author</th>
+					<th style="width:160px;">Date Posted</th>
+					<th class="text-center" style="width:20px;">Votes</th>
+					<th class="text-center" style="width:50px;">Link</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for info in result %}
+				<tr>
+					<th scope="row">{{ loop.index }}</th>
+					<td> {{ info.title }} </td>
+					<td> {{ info.synopsis }} </td>
+					<td> {{ info.author }} </td>
+					<td> {{ info.date_posted|timeformatted }} </td>
+					<td class="text-center"> {{ info.votes }} </td>
+					<td> <a class="btn btn-sm btn-primary" href="{{ url_for('story.read', url=info.url) }}">Click</a> </td>
+				</tr> {% endfor %}
+
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}
+{% block customjs %}
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#table').DataTable({
+			searching: false,
+			"columnDefs": [{
+				"orderable": false,
+				"targets": [2, 6]
+			}],
+			{% if sort == 'top' %}
+			"order": [
+			[5, "desc"]
+		] {% elif sort == 'latest' %}
+		"order": [
+			[4, "desc"]
+		] {% elif sort == 'alphabetical' %}
+		"order": [
+			[1, "desc"]
+		] {% endif %}
+		});
+	});
+</script>
+{% endblock %}

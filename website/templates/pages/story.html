@@ -1,0 +1,56 @@
+{% extends 'layout.html' %} {% block title %}{{ info.title }} - {{config.SITE_NAME}}{% endblock %} {% block navbar %}{% include
+'navbar.html' %}{% endblock %} {% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+  <div class="col-8">
+    <div class="page-header">
+      <h1 class="text-center" id="container">
+        {{ info.title }}
+      </h1>
+    </div>
+    <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="collapse" data-target="#info">
+          Information and Synopsis
+    </button>
+
+    <div id="info" class="collapse collapse-in">
+      <br>
+      <div class="well well-xs">
+        <dl class="row">
+          <dt class="col-sm-2">Author: </dt>
+          <dd class="col-sm-10">
+            <a href="{{ url_for('user.user', username=info.author) }}">
+              <u>{{ info.author }}</u>
+            </a>
+          </dd>
+          <dt class="col-sm-2">Date posted: </dt>
+          <dd class="col-sm-10">{{ info.date_posted|timeformatted }}</dd>
+          <dt class="col-sm-2">Votes: </dt>
+          <dd class="col-sm-10">{{ info.votes }}</dd>
+          <dt class="col-sm-2">Synopsis: </dt>
+          <dd class="col-sm-10">{{ info.synopsis }}</dd>
+        </dl>
+        <a href="{{ url_for('story.comments', url=info.url) }}" class="btn btn-block btn-primary text-center">View comments.</a>
+      </div>
+    </div>
+    <br>
+    <hr>
+    <div id="story" style="visibility:hidden;">{{ info.story }}</div>
+  </div>
+  </div>
+</div>
+{% endblock %}
+{% block customjs %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/commonmark/0.27.0/commonmark.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    var reader = new commonmark.Parser({ safe: true });
+    var writer = new commonmark.HtmlRenderer({ safe: true });
+    var parsed = reader.parse($("#story").text());
+
+    writer.softbreak = "<br>";
+    var result = writer.render(parsed);
+    $("#story").html(result);
+    $("#story").removeAttr("style");
+  });
+</script>
+{% endblock %}

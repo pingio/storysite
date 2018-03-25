@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block title %}{{ user.username }} - {{config.SITE_NAME}}{% endblock %} 
+{% block navbar %}{% include 'navbar.html' %}{% endblock %} 
+{% block content %}
+<div class="container">
+    <div class="col-12">
+        <h1 class="username">USER: {{ user.username }}</h1>
+        <hr>
+        <section class="user-info text-muted">
+            <ul class="list-inline">
+                <li class="list-inline-item">Account type: <span class="badge badge-success">VIP</span></li>
+                &nbsp;
+                <li class="list-inline-item">Story count: {{ storylen }}</li>
+            </ul>
+        </section>
+
+        {% if accountSettings %}
+        <section class="user-pages">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('account.home') }}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('account.settings') }}">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('account.stories') }}">Stories</a>
+                </li>
+            </ul>
+        </section>
+        <br>
+        {% endif %}
+        
+        <section class="user-stories">
+             {% for story in stories %}
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">{{ story.title }}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">Votes: {{ story.votes }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Date posted: {{ story.date_posted|timeformatted }}</h6>
+                    <p class="card-text">{{ story.synopsis }}</p>
+                    <a href="{{ url_for('story.read', url=story.url) }}" class="card-link btn btn-primary">Story</a>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+        </section>
+    </div>
+</div>
+
+{% endblock %}

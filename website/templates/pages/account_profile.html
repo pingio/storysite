@@ -1,0 +1,17 @@
+{% macro account_profile() %}
+<section class="user-content user-profile clearfix">
+    <div class="user-info card">
+        <div class="card-block">
+            <dl>
+                <dt>Last login date:</dt>
+                <dd>{{user.last_login_date}}</dd>
+                <dt>Last login IP:</dt>
+                <dd>{{last_ip}}</dd>
+            </dl>
+        </div>
+    </div>
+</section>
+{% endmacro %}
+
+{% macro customjs() %}
+{% endmacro %}

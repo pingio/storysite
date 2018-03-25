@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block title %}Log in - {{config.SITE_NAME}}{% endblock %} 
+{% block navbar %}{% include 'navbar.html' %}{% endblock %} 
+{% block content %}
+<div class="container">
+	<div class="row justify-content-center">
+		{% if error == 'valfail' %}
+		<div class="alert alert-danger" role="alert">
+			 <strong>Username or password is wrong</strong>
+		</div>
+		{% endif %}
+		<div class="col-md-4">
+			<div class="login">
+				{% from '_formhelpers.html' import render_field %}
+				<form method="POST" action="{{ url_for('account.login') }}">
+					{{ render_field(form.username) }}
+					{{ render_field(form.password) }}
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block customjs %}
+{% endblock %}

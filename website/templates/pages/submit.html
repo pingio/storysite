@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block title %}Submit a Story - {{config.SITE_NAME}}{% endblock %} 
+{% block navbar %}{% include 'navbar.html' %}{% endblock %} 
+{% block content %}
+<div class="container">
+	<div class="row">
+				{% if loggedin %} 
+				{% from '_formhelpers.html' import render_field %}
+				<div class="col">
+					<div class="submit">
+						
+					<form method="POST" action="{{ url_for('story.submit') }}">
+						
+						{{ render_field(form.story) }}
+						<p class="text-muted"><small>We use <a href="http://commonmark.org/help/">markdown</a> to write our stories!</small></p>
+						{{ render_field(form.title) }}
+						{{ render_field(form.synopsis) }}
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+					
+					</div>
+				</div>
+				<div class="col">
+					<div class="hidden-sm-down">
+						<br>
+					</div>
+					<div id="story-preview">
+						
+					</div>
+				</div>
+				{% else %}
+				<div class="jumbotron">
+					<h1>
+						You are not logged in.
+					</h1>
+					<div>
+						Hi there! It seems that you are not logged in. Unfortunately you can only submit stories if you are logged in.
+						</div>
+						<br>
+					<div>
+						<a class="btn btn-primary btn-lg" href="{{ url_for('account.login') }}">Log in</a> or <a class="btn btn-secondary btn-lg" href="{{ url_for('account.signup') }}">Sign up</a>
+						</div>
+				</div>
+				{% endif %}
+	</div>
+</div>
+{% endblock %}
+{% block customjs %}
+{% from '_formhelpers.html' import preview_markdown %}
+{{ preview_markdown('story-text', 'story-preview') }} 
+{% endblock %}
